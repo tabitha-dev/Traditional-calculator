@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .calculator {
+      width: 200px;
+      margin: 0 auto;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+    }
+
+    .calculator .output {
+      background-color: #f7f7f7;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      padding: 5px;
+      text-align: right;
+      margin-bottom: 10px;
+    }
+
+    .calculator .buttons button {
+      width: 40px;
+      height: 40px;
+      margin: 2px;
+      font-size: 18px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .calculator .buttons button.operator {
+      background-color: #f7b267;
+      color: white;
+    }
+
+    .calculator .buttons button.equals {
+      background-color: #8ab5d8;
+      color: white;
+    }
+
+    .calculator .buttons button.clear {
+      background-color: #f08080;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="calculator">
+    <div class="output" id="output">0</div>
+    <div class="buttons">
+      <button onclick="appendNumber('7')">7</button>
+      <button onclick="appendNumber('8')">8</button>
+      <button onclick="appendNumber('9')">9</button>
+      <button onclick="setOperator('+')" class="operator">+</button>
+      <button onclick="appendNumber('4')">4</button>
+      <button onclick="appendNumber('5')">5</button>
+      <button onclick="appendNumber('6')">6</button>
+      <button onclick="setOperator('-')" class="operator">-</button>
+      <button onclick="appendNumber('1')">1</button>
+      <button onclick="appendNumber('2')">2</button>
+      <button onclick="appendNumber('3')">3</button>
+      <button onclick="setOperator('*')" class="operator">*</button>
+      <button onclick="appendNumber('0')">0</button>
+      <button onclick="appendDecimal('.')">.</button>
+      <button onclick="calculate()" class="equals">=</button>
+      <button onclick="setOperator('/')" class="operator">/</button>
+      <button onclick="clearOutput()" class="clear">C</button>
+    </div>
+  </div>
+
+  <script>
+    let outputValue = "0";
+    let operator = "";
+    let previousValue = "";
+
+    function appendNumber(number) {
+      if (outputValue === "0") {
+        outputValue = number;
+      } else {
+        outputValue += number;
+      }
+      updateOutput();
+    }
+
+    function appendDecimal(decimal) {
+      if (!outputValue.includes(decimal)) {
+        outputValue += decimal;
+        updateOutput();
+      }
+    }
+
+    function setOperator(operatorType) {
+      operator = operatorType;
+      previousValue = outputValue;
+      outputValue = "0";
+      updateOutput();
+    }
+
+    function calculate() {
+      let result;
+      const currentValue = parseFloat(outputValue);
+      const previous = parseFloat(previousValue);
+
+      switch (operator) {
+        case "+":
+          result = previous + currentValue;
+          break;
+        case "-":
+          result = previous - currentValue;
+          break;
+        case "*":
+          result = previous * currentValue;
+          break;
+        case "/":
+          result = previous / currentValue;
+          break;
+        default:
+          return;
+      }
+
+      outputValue = result.toString();
+      operator = "";
+      previousValue = "";
+      updateOutput();
+    }
+
+    function clearOutput() {
+      outputValue = "0";
+      operator = "";
+      previousValue = "";
+      updateOutput();
+    }
+
+    function updateOutput() {
+      document.getElementById("output").innerText = outputValue;
+    }
+  </script>
+</body>
+
+</html>
